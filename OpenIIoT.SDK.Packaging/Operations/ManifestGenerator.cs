@@ -41,7 +41,6 @@
 
 using System;
 using System.IO;
-using OpenIIoT.SDK.Common;
 using OpenIIoT.SDK.Packaging.Manifest;
 
 namespace OpenIIoT.SDK.Packaging.Operations
@@ -133,7 +132,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
                 Verbose($"Adding file '{file}'...");
                 PackageManifestFile newFile = new PackageManifestFile();
 
-                newFile.Source = Common.Utility.GetRelativePath(directory, file);
+                newFile.Source = Utility.GetRelativePath(directory, file);
 
                 if (type == PackageManifestFileType.Binary || hashFiles)
                 {
