@@ -44,14 +44,14 @@ using Newtonsoft.Json;
 namespace OpenIIoT.SDK.Packaging.Manifest
 {
     /// <summary>
-    ///     Contains the digital signature information for a <see cref="Package"/> file.
+    ///     Contains the digital signature information for a Package file.
     /// </summary>
     public class PackageManifestSignature
     {
         #region Public Properties
 
         /// <summary>
-        ///     Gets or sets the PGP signature of the <see cref="Package"/> .
+        ///     Gets or sets the PGP signature of the Package.
         /// </summary>
         [JsonProperty(Order = 3)]
         public string Digest { get; set; }
@@ -69,7 +69,7 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         public string Subject { get; set; }
 
         /// <summary>
-        ///     Gets or sets the PGP signature used to establish a trust for the <see cref="Package"/> .
+        ///     Gets or sets the PGP signature used to establish a trust for the Package.
         /// </summary>
         [JsonProperty(Order = 4)]
         public string Trust { get; set; }
