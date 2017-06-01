@@ -48,6 +48,8 @@
                                                                                                  ▀████▀
                                                                                                    ▀▀                            */
 
+using System.Collections.Generic;
+using OpenIIoT.SDK.Packaging.Manifest;
 using Xunit;
 
 namespace OpenIIoT.SDK.Packaging.Tests.Manifest
@@ -57,5 +59,42 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
     /// </summary>
     public class PackageManifest
     {
+        #region Public Methods
+
+        /// <summary>
+        ///     Tests the Constructor and all properties.
+        /// </summary>
+        [Fact]
+        public void Constructor()
+        {
+            Packaging.Manifest.PackageManifest test = new Packaging.Manifest.PackageManifest();
+
+            test.Checksum = "checksum";
+            test.Copyright = "copyright";
+            test.Description = "description";
+            test.Files = new Dictionary<PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>>();
+            test.License = "license";
+            test.Namespace = "namespace";
+            test.Publisher = "publisher";
+            test.Signature = new Packaging.Manifest.PackageManifestSignature();
+            test.Title = "title";
+            test.Url = "url";
+            test.Version = "version";
+
+            Assert.Equal(test.Checksum, "checksum");
+            Assert.Equal(test.Copyright, "copyright");
+            Assert.Equal(test.Description, "description");
+            Assert.NotNull(test.Files);
+            Assert.Empty(test.Files);
+            Assert.Equal(test.License, "license");
+            Assert.Equal(test.Namespace, "namespace");
+            Assert.Equal(test.Publisher, "publisher");
+            Assert.NotNull(test.Signature);
+            Assert.Equal(test.Title, "title");
+            Assert.Equal(test.Url, "url");
+            Assert.Equal(test.Version, "version");
+        }
+
+        #endregion Public Methods
     }
 }
