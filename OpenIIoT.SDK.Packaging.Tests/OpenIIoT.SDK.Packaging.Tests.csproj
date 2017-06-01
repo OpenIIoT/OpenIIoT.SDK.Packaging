@@ -72,6 +72,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Manifest\PackageManifestSignature.cs" />
+    <Compile Include="Manifest\PackageManifestFile.cs" />
+    <Compile Include="Manifest\PackageManifestBuilder.cs" />
+    <Compile Include="Manifest\PackageManifest.cs" />
     <Compile Include="Operations\PackageVerifier.cs" />
     <Compile Include="Operations\PackageTruster.cs" />
     <Compile Include="Operations\PackageExtractor.cs" />
