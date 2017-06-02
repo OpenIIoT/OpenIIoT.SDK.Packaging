@@ -57,5 +57,27 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
     /// </summary>
     public class PackageManifestSignature
     {
+        #region Public Methods
+
+        /// <summary>
+        ///     Tests the Constructor and all properties.
+        /// </summary>
+        [Fact]
+        public void Constructor()
+        {
+            Packaging.Manifest.PackageManifestSignature test = new Packaging.Manifest.PackageManifestSignature();
+
+            test.Digest = "digest";
+            test.Issuer = "issuer";
+            test.Subject = "subject";
+            test.Trust = "trust";
+
+            Assert.Equal(test.Digest, "digest");
+            Assert.Equal(test.Issuer, "issuer");
+            Assert.Equal(test.Subject, "subject");
+            Assert.Equal(test.Trust, "trust");
+        }
+
+        #endregion Public Methods
     }
 }
