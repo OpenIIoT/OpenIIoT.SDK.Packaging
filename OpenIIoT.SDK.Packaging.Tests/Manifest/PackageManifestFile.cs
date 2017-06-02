@@ -57,5 +57,23 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
     /// </summary>
     public class PackageManifestFile
     {
+        #region Public Methods
+
+        /// <summary>
+        ///     Tests the Constructor and all properties.
+        /// </summary>
+        [Fact]
+        public void Constructor()
+        {
+            Packaging.Manifest.PackageManifestFile test = new Packaging.Manifest.PackageManifestFile();
+
+            test.Checksum = "checksum";
+            test.Source = "source";
+
+            Assert.Equal(test.Checksum, "checksum");
+            Assert.Equal(test.Source, "source");
+        }
+
+        #endregion Public Methods
     }
 }
