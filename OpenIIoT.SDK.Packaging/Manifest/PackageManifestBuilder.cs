@@ -57,6 +57,8 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         /// <param name="manifest">The PackageManifest instance with which to initialize the builder.</param>
         public PackageManifestBuilder(PackageManifest manifest = default(PackageManifest))
         {
+            Manifest = manifest;
+
             if (manifest == default(PackageManifest))
             {
                 Manifest = new PackageManifest();
