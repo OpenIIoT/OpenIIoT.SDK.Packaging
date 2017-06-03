@@ -48,6 +48,7 @@
                                                                                                  ▀████▀
                                                                                                    ▀▀                            */
 
+using System.Collections.Generic;
 using Xunit;
 
 namespace OpenIIoT.SDK.Packaging.Tests.Manifest
@@ -85,7 +86,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
         /// </summary>
         [Fact]
-        public void AddFileFirstFile()
+        public void AddFile()
         {
             Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
             {
@@ -95,8 +96,47 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
             Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
 
-            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
             Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.BuildDefault"/> method.
+        /// </summary>
+        [Fact]
+        public void BuildDefault()
+        {
+            Packaging.Manifest.PackageManifest manifest = Builder.BuildDefault().Manifest;
+
+            Assert.NotEqual(string.Empty, manifest.Title);
+            Assert.NotEqual(string.Empty, manifest.Version);
+            Assert.NotEqual(string.Empty, manifest.Namespace);
+            Assert.NotEqual(string.Empty, manifest.Description);
+            Assert.NotEqual(string.Empty, manifest.Publisher);
+            Assert.NotEqual(string.Empty, manifest.Copyright);
+            Assert.NotEqual(string.Empty, manifest.License);
+            Assert.NotEqual(string.Empty, manifest.Url);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.ClearFiles"/> method.
+        /// </summary>
+        [Fact]
+        public void ClearFiles()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+
+            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+
+            Builder.ClearFiles();
+
+            Assert.Equal(0, Builder.Manifest.Files.Count);
         }
 
         /// <summary>
@@ -117,6 +157,216 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
             Assert.NotNull(test.Manifest);
             Assert.Equal(test.Manifest.Title, "manifest");
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Copyright(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Copyright()
+        {
+            Assert.Null(Builder.Manifest.Copyright);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Copyright("Copyright");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Copyright", Builder.Manifest.Copyright);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Description(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Description()
+        {
+            Assert.Null(Builder.Manifest.Description);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Description("Description");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Description", Builder.Manifest.Description);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Files(IDictionary{Packaging.Manifest.PackageManifestFileType, IList{Packaging.Manifest.PackageManifestFile}})"/> method.
+        /// </summary>
+        [Fact]
+        public void Files()
+        {
+            Assert.Null(Builder.Manifest.Files);
+
+            IDictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>> files = new Dictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>>();
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Files(files);
+
+            Assert.Same(builder, Builder);
+            Assert.Same(files, Builder.Manifest.Files);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.License(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void License()
+        {
+            Assert.Null(Builder.Manifest.License);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.License("License");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("License", Builder.Manifest.License);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Namespace(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Namespace()
+        {
+            Assert.Null(Builder.Manifest.Namespace);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Namespace("Namespace");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Namespace", Builder.Manifest.Namespace);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Publisher(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Publisher()
+        {
+            Assert.Null(Builder.Manifest.Publisher);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Publisher("Publisher");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Publisher", Builder.Manifest.Publisher);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
+        /// </summary>
+        [Fact]
+        public void RemoveFile()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+
+            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+
+            Assert.Equal(0, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
+        ///     method when no files have yet been added to the list.
+        /// </summary>
+        [Fact]
+        public void RemoveFileNoFiles()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+
+            Assert.Null(Builder.Manifest.Files);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
+        ///     method with a type which has not yet been added to the list.
+        /// </summary>
+        [Fact]
+        public void RemoveFileNoFilesOfType()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+
+            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+
+            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Binary, file);
+
+            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Signature(Packaging.Manifest.PackageManifestSignature)"/> method.
+        /// </summary>
+        [Fact]
+        public void Signature()
+        {
+            Assert.Null(Builder.Manifest.Signature);
+
+            Packaging.Manifest.PackageManifestSignature signature = new Packaging.Manifest.PackageManifestSignature();
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Signature(signature);
+
+            Assert.Same(builder, Builder);
+            Assert.Same(signature, Builder.Manifest.Signature);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Title(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Title()
+        {
+            Assert.Null(Builder.Manifest.Title);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Title("Title");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Title", Builder.Manifest.Title);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Url(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Url()
+        {
+            Assert.Null(Builder.Manifest.Url);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Url("Url");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Url", Builder.Manifest.Url);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.Version(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void Version()
+        {
+            Assert.Null(Builder.Manifest.Version);
+
+            Packaging.Manifest.PackageManifestBuilder builder = Builder.Version("Version");
+
+            Assert.Same(builder, Builder);
+            Assert.Equal("Version", Builder.Manifest.Version);
         }
 
         #endregion Public Methods
