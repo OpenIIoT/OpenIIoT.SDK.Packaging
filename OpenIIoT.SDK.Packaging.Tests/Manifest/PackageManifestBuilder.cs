@@ -101,6 +101,34 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         }
 
         /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
+        ///     method with a file matching the type of a previously added file.
+        /// </summary>
+        [Fact]
+        public void AddFileExistingType()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Packaging.Manifest.PackageManifestFile file2 = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source2",
+                Checksum = "checksum",
+            };
+
+            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file2);
+
+            Assert.Equal(2, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal("source2", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][1].Source);
+        }
+
+        /// <summary>
         ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.BuildDefault"/> method.
         /// </summary>
         [Fact]
@@ -137,6 +165,17 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
             Builder.ClearFiles();
 
             Assert.Equal(0, Builder.Manifest.Files.Count);
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.ClearFiles"/> method when the file list is empty.
+        /// </summary>
+        [Fact]
+        public void ClearFilesNoFiles()
+        {
+            Builder.ClearFiles();
+
+            Assert.Null(Builder.Manifest.Files);
         }
 
         /// <summary>
