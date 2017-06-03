@@ -57,5 +57,65 @@ namespace OpenIIoT.SDK.Packaging.Tests
     /// </summary>
     public class Utility
     {
+        #region Public Methods
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.ComputeFileSHA512Hash(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void ComputeFileSHA512Hash()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.ComputeFileSHA512Hash(string)"/> method with a file which can not be found
+        ///     on the local file system.
+        /// </summary>
+        [Fact]
+        public void ComputeFileSHA512HashFileNotFound()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.ComputeSHA512Hash(byte[])"/> method.
+        /// </summary>
+        [Fact]
+        public void ComputeSHA512HashBytes()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.ComputeSHA512Hash(string)"/> method.
+        /// </summary>
+        [Fact]
+        public void ComputeSHA512HashString()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.GetRelativePath(string, string)"/> method.
+        /// </summary>
+        [Fact]
+        public void GetRelativePath()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.GetRelativePath(string, string)"/> method with a string ending with a slash.
+        /// </summary>
+        [Fact]
+        public void GetRelativePathEndsWithSlash()
+        {
+        }
+
+        /// <summary>
+        ///     Tests the <see cref="Packaging.Utility.ToJson(object)"/> method.
+        /// </summary>
+        [Fact]
+        public void ToJson()
+        {
+        }
+
+        #endregion Public Methods
     }
 }
