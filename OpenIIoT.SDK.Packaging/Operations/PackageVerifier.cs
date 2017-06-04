@@ -83,6 +83,40 @@ namespace OpenIIoT.SDK.Packaging.Operations
         #region Public Methods
 
         /// <summary>
+        ///     Fetches the PGP public key for the specified keybase.io username from the keybase.io API.
+        /// </summary>
+        /// <param name="username">The keybase.io username of the user for which the PGP public key is to be fetched..</param>
+        /// <returns>The fetched PGP public key.</returns>
+        /// <exception cref="WebException">Thrown when an error occurs fetching the key.</exception>
+        public string FetchPublicKeyForUser(string username)
+        {
+            string url = PackagingConstants.KeyUrlBase.Replace(PackagingConstants.KeyUrlPlaceholder, username);
+
+            Verbose($"Fetching PGP key information from {url}...");
+
+            try
+            {
+                using (WebClient client = new WebClient())
+                {
+                    string content = client.DownloadString(url);
+
+                    Verbose($"Key information fetched.  Parsing primary public key...");
+
+                    JObject key = JObject.Parse(content);
+                    string publicKey = key["them"]["public_keys"]["primary"]["bundle"].ToString();
+
+                    Verbose($"Public key fetched successfully.");
+
+                    return publicKey;
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new WebException($"Failed to retrieve the PGP Public Key for the package: '{url}': {ex.Message}");
+            }
+        }
+
+        /// <summary>
         ///     Verifies the specified Package.
         /// </summary>
         /// <param name="packageFile">The Package to verify.</param>
@@ -202,40 +236,6 @@ namespace OpenIIoT.SDK.Packaging.Operations
         #endregion Public Methods
 
         #region Private Methods
-
-        /// <summary>
-        ///     Fetches the PGP public key for the specified keybase.io username from the keybase.io API.
-        /// </summary>
-        /// <param name="username">The keybase.io username of the user for which the PGP public key is to be fetched..</param>
-        /// <returns>The fetched PGP public key.</returns>
-        /// <exception cref="WebException">Thrown when an error occurs fetching the key.</exception>
-        public string FetchPublicKeyForUser(string username)
-        {
-            string url = PackagingConstants.KeyUrlBase.Replace(PackagingConstants.KeyUrlPlaceholder, username);
-
-            Verbose($"Fetching PGP key information from {url}...");
-
-            try
-            {
-                using (WebClient client = new WebClient())
-                {
-                    string content = client.DownloadString(url);
-
-                    Verbose($"Key information fetched.  Parsing primary public key...");
-
-                    JObject key = JObject.Parse(content);
-                    string publicKey = key["them"]["public_keys"]["primary"]["bundle"].ToString();
-
-                    Verbose($"Public key fetched successfully.");
-
-                    return publicKey;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw new WebException($"Failed to retrieve the PGP Public Key for the package: '{url}': {ex.Message}");
-            }
-        }
 
         /// <summary>
         ///     Reads and deserializes the <see cref="PackageManifest"/> contains within the specified file.

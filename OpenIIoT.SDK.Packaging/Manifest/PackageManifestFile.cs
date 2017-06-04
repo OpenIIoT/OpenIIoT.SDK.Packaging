@@ -48,7 +48,7 @@ namespace OpenIIoT.SDK.Packaging.Manifest
     /// </summary>
     public class PackageManifestFile
     {
-        #region Private Properties
+        #region Public Properties
 
         /// <summary>
         ///     Gets or sets the optional SHA512 hash of the file specified in the <see cref="Source"/> property.
@@ -62,6 +62,6 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         [JsonProperty(Order = 1)]
         public string Source { get; set; }
 
-        #endregion Private Properties
+        #endregion Public Properties
     }
 }
