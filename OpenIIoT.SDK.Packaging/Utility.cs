@@ -49,7 +49,7 @@ namespace OpenIIoT.SDK.Packaging
     /// <summary>
     ///     Contains miscellaneous static methods.
     /// </summary>
-    internal static class Utility
+    public static class Utility
     {
         #region Public Methods
 
