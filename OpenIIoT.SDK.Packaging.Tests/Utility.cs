@@ -127,10 +127,10 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void GetRelativePath()
         {
-            string baseDir = @"C:\test";
-            string file = @"C:\test\subdir\file.ext";
+            string baseDir = Path.Combine("base", "subdir");
+            string file = Path.Combine(baseDir, "subsubdir", "file.ext");
 
-            string expected = @"subdir\file.ext";
+            string expected = Path.Combine("subsubdir", "file.ext");
 
             string relative = Packaging.Utility.GetRelativePath(baseDir, file);
 
@@ -143,10 +143,10 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void GetRelativePathEndsWithSlash()
         {
-            string baseDir = @"C:\test\";
-            string file = @"C:\test\subdir\file.ext";
+            string baseDir = Path.Combine("base", "subdir");
+            string file = Path.Combine(baseDir, "subsubdir", "file.ext");
 
-            string expected = @"subdir\file.ext";
+            string expected = Path.Combine("subsubdir", "file.ext");
 
             string relative = Packaging.Utility.GetRelativePath(baseDir, file);
 
