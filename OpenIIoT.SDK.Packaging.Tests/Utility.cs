@@ -48,6 +48,9 @@
                                                                                                  ▀████▀
                                                                                                    ▀▀                            */
 
+using System;
+using System.IO;
+using System.Text;
 using Xunit;
 
 namespace OpenIIoT.SDK.Packaging.Tests
@@ -65,6 +68,16 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void ComputeFileSHA512Hash()
         {
+            string emptyHash = "CF83E1357EEFB8BDF1542850D66D8007D620E4050B5715DC83F4A921D36CE9CE47D0D13C5D85F2B0FF8318D2877EEC2F63B931BD47417A81A538327AF927DA3E";
+
+            Uri codeBaseUri = new Uri(System.Reflection.Assembly.GetExecutingAssembly().CodeBase);
+            string codeBasePath = Uri.UnescapeDataString(codeBaseUri.AbsolutePath);
+
+            string dataDirectory = Path.Combine(Path.GetDirectoryName(codeBasePath), "Data");
+
+            string hash = Packaging.Utility.ComputeFileSHA512Hash(Path.Combine(dataDirectory, "empty.txt"));
+
+            Assert.Equal(emptyHash, hash);
         }
 
         /// <summary>
@@ -74,6 +87,10 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void ComputeFileSHA512HashFileNotFound()
         {
+            Exception ex = Record.Exception(() => Packaging.Utility.ComputeFileSHA512Hash(Guid.NewGuid().ToString()));
+
+            Assert.NotNull(ex);
+            Assert.IsType<FileNotFoundException>(ex);
         }
 
         /// <summary>
@@ -82,6 +99,13 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void ComputeSHA512HashBytes()
         {
+            string testHash = "EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF";
+
+            byte[] test = Encoding.ASCII.GetBytes("test");
+
+            string hash = Packaging.Utility.ComputeSHA512Hash(test);
+
+            Assert.Equal(testHash, hash);
         }
 
         /// <summary>
@@ -90,6 +114,11 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void ComputeSHA512HashString()
         {
+            string testHash = "EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF";
+
+            string hash = Packaging.Utility.ComputeSHA512Hash("test");
+
+            Assert.Equal(testHash, hash);
         }
 
         /// <summary>
@@ -98,6 +127,14 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void GetRelativePath()
         {
+            string baseDir = @"C:\test";
+            string file = @"C:\test\subdir\file.ext";
+
+            string expected = @"subdir\file.ext";
+
+            string relative = Packaging.Utility.GetRelativePath(baseDir, file);
+
+            Assert.Equal(expected, relative);
         }
 
         /// <summary>
@@ -106,6 +143,14 @@ namespace OpenIIoT.SDK.Packaging.Tests
         [Fact]
         public void GetRelativePathEndsWithSlash()
         {
+            string baseDir = @"C:\test\";
+            string file = @"C:\test\subdir\file.ext";
+
+            string expected = @"subdir\file.ext";
+
+            string relative = Packaging.Utility.GetRelativePath(baseDir, file);
+
+            Assert.Equal(expected, relative);
         }
 
         /// <summary>
