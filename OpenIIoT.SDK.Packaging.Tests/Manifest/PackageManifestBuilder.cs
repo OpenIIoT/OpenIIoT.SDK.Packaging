@@ -82,8 +82,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         #region Public Methods
 
         /// <summary>
-        ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFile)"/> method.
         /// </summary>
         [Fact]
         public void AddFile()
@@ -101,8 +100,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         }
 
         /// <summary>
-        ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFile)"/>
         ///     method with a file matching the type of a previously added file.
         /// </summary>
         [Fact]
@@ -228,7 +226,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Files(IDictionary{Packaging.Manifest.PackageManifestFileType, IList{Packaging.Manifest.PackageManifestFile}})"/> method.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Files(IList{Packaging.Manifest.PackageManifestFile})"/> method.
         /// </summary>
         [Fact]
         public void Files()
@@ -286,7 +284,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method.
         /// </summary>
         [Fact]
         public void RemoveFile()
@@ -309,8 +307,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
-        ///     method when no files have yet been added to the list.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method
+        ///     when no files have yet been added to the list.
         /// </summary>
         [Fact]
         public void RemoveFileNoFiles()
@@ -328,8 +326,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
-        ///     method with a type which has not yet been added to the list.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method
+        ///     with a type which has not yet been added to the list.
         /// </summary>
         [Fact]
         public void RemoveFileNoFilesOfType()

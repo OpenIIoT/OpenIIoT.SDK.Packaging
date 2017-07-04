@@ -100,8 +100,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an empty string.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an empty string.
         /// </summary>
         [Fact]
         public void GenerateBlankDirectory()
@@ -113,8 +113,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an empty directory.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an empty directory.
         /// </summary>
         [Fact]
         public void GenerateEmptyDirectory()
@@ -126,8 +126,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type.
         /// </summary>
         [Fact]
         public void GenerateManifest()
@@ -146,8 +146,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an output file containing an invalid character.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an output file containing an invalid character.
         /// </summary>
         [Fact]
         public void GenerateManifestToBadFile()
@@ -163,8 +163,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type, and with an output file specified.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type, and with an output file specified.
         /// </summary>
         [Fact]
         public void GenerateManifestToFile()
@@ -186,8 +186,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type, and using the checksum option.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type, and using the checksum option.
         /// </summary>
         [Fact]
         public void GenerateManifestWithChecksums()
@@ -209,8 +209,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type with the Update event bound.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type with the Update event bound.
         /// </summary>
         [Fact]
         public void GenerateManifestWithUpdate()
@@ -234,8 +234,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory which does not exist.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory which does not exist.
         /// </summary>
         [Fact]
         public void GenerateNonExistentDirectory()
@@ -247,8 +247,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a null directory.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a null directory.
         /// </summary>
         [Fact]
         public void GenerateNullDirectory()
