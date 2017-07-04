@@ -326,30 +326,6 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method
-        ///     with a type which has not yet been added to the list.
-        /// </summary>
-        [Fact]
-        public void RemoveFileNoFilesOfType()
-        {
-            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
-            {
-                Source = "source",
-                Checksum = "checksum",
-            };
-
-            Builder.AddFile(file);
-
-            Assert.Equal(1, Builder.Manifest.Files.Count);
-            Assert.Equal("source", Builder.Manifest.Files[0].Source);
-
-            Builder.RemoveFile(file);
-
-            Assert.Equal(1, Builder.Manifest.Files.Count);
-        }
-
-        /// <summary>
-        ///     Tests the
         ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Signature(Packaging.Manifest.PackageManifestSignature)"/> method.
         /// </summary>
         [Fact]

@@ -41,6 +41,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIIoT.SDK.Packaging.Manifest
 {
@@ -208,9 +209,11 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         {
             if (Manifest.Files != default(IList<PackageManifestFile>))
             {
-                if (Manifest.Files.Contains(file))
+                PackageManifestFile foundFile = Manifest.Files.Where(f => f.Source == file.Source).FirstOrDefault();
+
+                if (foundFile != default(PackageManifestFile))
                 {
-                    Manifest.Files.Remove(file);
+                    Manifest.Files.Remove(foundFile);
                 }
             }
 
