@@ -49,7 +49,6 @@
                                                                                                    ▀▀                            */
 
 using System.Collections.Generic;
-using OpenIIoT.SDK.Packaging.Manifest;
 using Xunit;
 
 namespace OpenIIoT.SDK.Packaging.Tests.Manifest
@@ -72,7 +71,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
             test.Checksum = "checksum";
             test.Copyright = "copyright";
             test.Description = "description";
-            test.Files = new Dictionary<PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>>();
+            test.Files = new List<Packaging.Manifest.PackageManifestFile>();
             test.License = "license";
             test.Namespace = "namespace";
             test.Publisher = "publisher";
