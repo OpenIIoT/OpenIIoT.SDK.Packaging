@@ -73,7 +73,7 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         ///     Gets or sets the collection of <see cref="PackageManifestFile"/> instances representing the files in the Package payload.
         /// </summary>
         [JsonProperty(Order = 11)]
-        public IDictionary<PackageManifestFileType, IList<PackageManifestFile>> Files { get; set; }
+        public IList<PackageManifestFile> Files { get; set; }
 
         /// <summary>
         ///     Gets or sets the Package license.

@@ -139,10 +139,10 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             PackageManifest manifest = Generator.GenerateManifest(TempDirectory);
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(2, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "index.html" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "binary.dll" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "resource.bmp" }));
         }
 
         /// <summary>
@@ -176,10 +176,10 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             PackageManifest manifest = Generator.GenerateManifest(TempDirectory, true, true, Path.Combine(TempDirectory, "manifest.json"));
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(3, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "index.html" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "binary.dll" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "resource.bmp" }));
         }
 
         /// <summary>
@@ -196,11 +196,10 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             PackageManifest manifest = Generator.GenerateManifest(TempDirectory, false, true);
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(2, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.WebIndex][0].Checksum);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(2, manifest.Files.Count);
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "index.html" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "binary.dll" }));
+            Assert.True(manifest.Files.Contains(new PackageManifestFile() { Source = "resource.bmp" }));
         }
 
         /// <summary>

@@ -194,22 +194,19 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// <param name="directory">The directory containing payload files.</param>
         internal void ValidateManifestAndGenerateHashes(PackageManifest manifest, string directory)
         {
-            foreach (PackageManifestFileType type in manifest.Files.Keys)
+            foreach (PackageManifestFile file in manifest.Files)
             {
-                foreach (PackageManifestFile file in manifest.Files[type])
+                // determine the absolute path for the file we need to examine
+                string fileToCheck = Path.Combine(directory, file.Source);
+
+                if (!File.Exists(fileToCheck))
                 {
-                    // determine the absolute path for the file we need to examine
-                    string fileToCheck = Path.Combine(directory, file.Source);
+                    throw new FileNotFoundException($"The file '{file.Source}' is listed in the manifest but is not found on disk.");
+                }
 
-                    if (!File.Exists(fileToCheck))
-                    {
-                        throw new FileNotFoundException($"The file '{file.Source}' is listed in the manifest but is not found on disk.");
-                    }
-
-                    if (file.Checksum != default(string))
-                    {
-                        file.Checksum = Utility.ComputeFileSHA512Hash(fileToCheck);
-                    }
+                if (file.Checksum != default(string))
+                {
+                    file.Checksum = Utility.ComputeFileSHA512Hash(fileToCheck);
                 }
             }
         }

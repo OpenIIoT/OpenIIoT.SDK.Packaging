@@ -125,47 +125,17 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// <param name="hashFiles">A value indicating whether files added to the manifest are to include a SHA512 hash.</param>
         private void AddFile(PackageManifestBuilder builder, string file, string directory, bool includeResources, bool hashFiles)
         {
-            PackageManifestFileType type = GetFileType(file);
+            Verbose($"Adding file '{file}'...");
+            PackageManifestFile newFile = new PackageManifestFile();
 
-            if (type == PackageManifestFileType.Binary || type == PackageManifestFileType.WebIndex || (type == PackageManifestFileType.Resource && includeResources))
-            {
-                Verbose($"Adding file '{file}'...");
-                PackageManifestFile newFile = new PackageManifestFile();
+            newFile.Source = Utility.GetRelativePath(directory, file);
 
-                newFile.Source = Utility.GetRelativePath(directory, file);
+            if (hashFiles)
+            {
+                newFile.Checksum = string.Empty;
+            }
 
-                if (type == PackageManifestFileType.Binary || hashFiles)
-                {
-                    newFile.Checksum = string.Empty;
-                }
-
-                builder.AddFile(type, newFile);
-            }
-            else
-            {
-                Verbose($"Skipping file '{file}...");
-            }
-        }
-
-        /// <summary>
-        ///     Determines and returns the <see cref="PackageManifestFileType"/> matching the specified file.
-        /// </summary>
-        /// <param name="file">The file for which the <see cref="PackageManifestFileType"/> is to be determined.</param>
-        /// <returns>The type of the specified file.</returns>
-        private PackageManifestFileType GetFileType(string file)
-        {
-            if (Path.GetExtension(file) == ".dll")
-            {
-                return PackageManifestFileType.Binary;
-            }
-            else if (Path.GetFileName(file).Equals("index.html", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(file).Equals("index.htm", StringComparison.OrdinalIgnoreCase))
-            {
-                return PackageManifestFileType.WebIndex;
-            }
-            else
-            {
-                return PackageManifestFileType.Resource;
-            }
+            builder.AddFile(newFile);
         }
 
         #endregion Private Methods
