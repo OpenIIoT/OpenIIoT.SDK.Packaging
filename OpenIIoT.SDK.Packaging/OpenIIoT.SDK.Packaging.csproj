@@ -63,7 +63,6 @@
     <Compile Include="Manifest\PackageManifest.cs" />
     <Compile Include="Manifest\PackageManifestBuilder.cs" />
     <Compile Include="Manifest\PackageManifestFile.cs" />
-    <Compile Include="Manifest\PackageManifestFileType.cs" />
     <Compile Include="Manifest\PackageManifestSignature.cs" />
     <Compile Include="PackagingConstants.cs" />
     <Compile Include="Operations\ManifestExtractor.cs" />

@@ -144,6 +144,8 @@ namespace OpenIIoT.SDK.Packaging.Tests
         public void GetRelativePathEndsWithSlash()
         {
             string baseDir = Path.Combine("base", "subdir");
+            baseDir += Path.DirectorySeparatorChar.ToString();
+
             string file = Path.Combine(baseDir, "subsubdir", "file.ext");
 
             string expected = Path.Combine("subsubdir", "file.ext");

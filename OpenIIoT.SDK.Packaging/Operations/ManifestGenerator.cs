@@ -69,11 +69,10 @@ namespace OpenIIoT.SDK.Packaging.Operations
         ///     files and hashing file entries if those options are specified.
         /// </summary>
         /// <param name="inputDirectory">The directory from which to generate a list of files.</param>
-        /// <param name="includeResources">A value indicating whether resource files are to be added to the manifest.</param>
         /// <param name="hashFiles">A value indicating whether files added to the manifest are to include a SHA512 hash.</param>
         /// <param name="manifestFile">The filename of the file to which the manifest is to be saved.</param>
         /// <returns>The generated manifest.</returns>
-        public PackageManifest GenerateManifest(string inputDirectory, bool includeResources = false, bool hashFiles = false, string manifestFile = "")
+        public PackageManifest GenerateManifest(string inputDirectory, bool hashFiles = false, string manifestFile = "")
         {
             ArgumentValidator.ValidateInputDirectoryArgument(inputDirectory);
 
@@ -87,7 +86,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
 
             foreach (string file in files)
             {
-                AddFile(builder, file, inputDirectory, includeResources, hashFiles);
+                AddFile(builder, file, inputDirectory, hashFiles);
             }
 
             PackageManifest manifest = builder.Manifest;
@@ -121,51 +120,20 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// <param name="builder">The manifest builder with which to add the file.</param>
         /// <param name="file">The file to add.</param>
         /// <param name="directory">The directory containing the file.</param>
-        /// <param name="includeResources">A value indicating whether resource files are to be added to the manifest.</param>
         /// <param name="hashFiles">A value indicating whether files added to the manifest are to include a SHA512 hash.</param>
-        private void AddFile(PackageManifestBuilder builder, string file, string directory, bool includeResources, bool hashFiles)
+        private void AddFile(PackageManifestBuilder builder, string file, string directory, bool hashFiles)
         {
-            PackageManifestFileType type = GetFileType(file);
+            Verbose($"Adding file '{file}'...");
+            PackageManifestFile newFile = new PackageManifestFile();
 
-            if (type == PackageManifestFileType.Binary || type == PackageManifestFileType.WebIndex || (type == PackageManifestFileType.Resource && includeResources))
-            {
-                Verbose($"Adding file '{file}'...");
-                PackageManifestFile newFile = new PackageManifestFile();
+            newFile.Source = Utility.GetRelativePath(directory, file);
 
-                newFile.Source = Utility.GetRelativePath(directory, file);
+            if (hashFiles)
+            {
+                newFile.Checksum = string.Empty;
+            }
 
-                if (type == PackageManifestFileType.Binary || hashFiles)
-                {
-                    newFile.Checksum = string.Empty;
-                }
-
-                builder.AddFile(type, newFile);
-            }
-            else
-            {
-                Verbose($"Skipping file '{file}...");
-            }
-        }
-
-        /// <summary>
-        ///     Determines and returns the <see cref="PackageManifestFileType"/> matching the specified file.
-        /// </summary>
-        /// <param name="file">The file for which the <see cref="PackageManifestFileType"/> is to be determined.</param>
-        /// <returns>The type of the specified file.</returns>
-        private PackageManifestFileType GetFileType(string file)
-        {
-            if (Path.GetExtension(file) == ".dll")
-            {
-                return PackageManifestFileType.Binary;
-            }
-            else if (Path.GetFileName(file).Equals("index.html", StringComparison.OrdinalIgnoreCase) || Path.GetFileName(file).Equals("index.htm", StringComparison.OrdinalIgnoreCase))
-            {
-                return PackageManifestFileType.WebIndex;
-            }
-            else
-            {
-                return PackageManifestFileType.Resource;
-            }
+            builder.AddFile(newFile);
         }
 
         #endregion Private Methods

@@ -41,6 +41,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace OpenIIoT.SDK.Packaging.Manifest
 {
@@ -79,25 +80,18 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         #region Public Methods
 
         /// <summary>
-        ///     Adds a <see cref="PackageManifestFile"/> of the specified <see cref="PackageManifestFileType"/> to the
-        ///     <see cref="PackageManifest"/> under construction.
+        ///     Adds a <see cref="PackageManifestFile"/> to the <see cref="PackageManifest"/> under construction.
         /// </summary>
-        /// <param name="type">The file type.</param>
         /// <param name="file">The PackageManifestFile instance to add.</param>
         /// <returns>The modified <see cref="PackageManifest"/> instance.</returns>
-        public PackageManifestBuilder AddFile(PackageManifestFileType type, PackageManifestFile file)
+        public PackageManifestBuilder AddFile(PackageManifestFile file)
         {
-            if (Manifest.Files == default(IDictionary<PackageManifestFileType, IList<PackageManifestFile>>))
+            if (Manifest.Files == default(IList<PackageManifestFile>))
             {
-                Manifest.Files = new Dictionary<PackageManifestFileType, IList<PackageManifestFile>>();
+                Manifest.Files = new List<PackageManifestFile>();
             }
 
-            if (!Manifest.Files.ContainsKey(type))
-            {
-                Manifest.Files.Add(type, new List<PackageManifestFile>());
-            }
-
-            Manifest.Files[type].Add(file);
+            Manifest.Files.Add(file);
 
             return this;
         }
@@ -164,7 +158,7 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         /// </summary>
         /// <param name="files">The value to which the Files field is to be set.</param>
         /// <returns>The modified <see cref="PackageManifest"/> instance.</returns>
-        public PackageManifestBuilder Files(IDictionary<PackageManifestFileType, IList<PackageManifestFile>> files)
+        public PackageManifestBuilder Files(IList<PackageManifestFile> files)
         {
             Manifest.Files = files;
             return this;
@@ -207,19 +201,19 @@ namespace OpenIIoT.SDK.Packaging.Manifest
         }
 
         /// <summary>
-        ///     Removes the specified <see cref="PackageManifestFile"/> of the specified <see cref="PackageManifestFileType"/> from
-        ///     the <see cref="PackageManifest"/> under construction.
+        ///     Removes the specified <see cref="PackageManifestFile"/> from the <see cref="PackageManifest"/> under construction.
         /// </summary>
-        /// <param name="type">The file type.</param>
         /// <param name="file">The PackageManifestFile instance to remove.</param>
         /// <returns>The modified <see cref="PackageManifest"/> instance.</returns>
-        public PackageManifestBuilder RemoveFile(PackageManifestFileType type, PackageManifestFile file)
+        public PackageManifestBuilder RemoveFile(PackageManifestFile file)
         {
-            if (Manifest.Files != default(IDictionary<PackageManifestFileType, IList<PackageManifestFile>>))
+            if (Manifest.Files != default(IList<PackageManifestFile>))
             {
-                if (Manifest.Files.ContainsKey(type))
+                PackageManifestFile foundFile = Manifest.Files.Where(f => f.Source == file.Source).FirstOrDefault();
+
+                if (foundFile != default(PackageManifestFile))
                 {
-                    Manifest.Files[type].Remove(file);
+                    Manifest.Files.Remove(foundFile);
                 }
             }
 

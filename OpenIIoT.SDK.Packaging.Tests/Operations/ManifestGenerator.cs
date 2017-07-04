@@ -50,6 +50,7 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using OpenIIoT.SDK.Packaging.Manifest;
 using Xunit;
 
@@ -100,8 +101,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an empty string.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an empty string.
         /// </summary>
         [Fact]
         public void GenerateBlankDirectory()
@@ -113,8 +114,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an empty directory.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an empty directory.
         /// </summary>
         [Fact]
         public void GenerateEmptyDirectory()
@@ -126,8 +127,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type.
         /// </summary>
         [Fact]
         public void GenerateManifest()
@@ -136,18 +137,19 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             File.WriteAllText(Path.Combine(TempDirectory, "binary.dll"), " ");
             File.WriteAllText(Path.Combine(TempDirectory, "resource.bmp"), " ");
 
-            PackageManifest manifest = Generator.GenerateManifest(TempDirectory);
+            PackageManifest manifest = Generator.GenerateManifest(TempDirectory, false);
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(2, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "index.html"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "binary.dll"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "resource.bmp"));
+            Assert.False(manifest.Files.All(f => f.Checksum != null));
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with an output file containing an invalid character.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with an output file containing an invalid character.
         /// </summary>
         [Fact]
         public void GenerateManifestToBadFile()
@@ -156,15 +158,15 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             File.WriteAllText(Path.Combine(TempDirectory, "binary.dll"), " ");
             File.WriteAllText(Path.Combine(TempDirectory, "resource.bmp"), " ");
 
-            Exception ex = Record.Exception(() => Generator.GenerateManifest(TempDirectory, true, true, Path.Combine(TempDirectory, "/")));
+            Exception ex = Record.Exception(() => Generator.GenerateManifest(TempDirectory, true, Path.Combine(TempDirectory, "/")));
 
             Assert.NotNull(ex);
             Assert.IsType<Exception>(ex);
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type, and with an output file specified.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type, and with an output file specified.
         /// </summary>
         [Fact]
         public void GenerateManifestToFile()
@@ -173,18 +175,19 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             File.WriteAllText(Path.Combine(TempDirectory, "binary.dll"), " ");
             File.WriteAllText(Path.Combine(TempDirectory, "resource.bmp"), " ");
 
-            PackageManifest manifest = Generator.GenerateManifest(TempDirectory, true, true, Path.Combine(TempDirectory, "manifest.json"));
+            PackageManifest manifest = Generator.GenerateManifest(TempDirectory, true, Path.Combine(TempDirectory, "manifest.json"));
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(3, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "index.html"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "binary.dll"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "resource.bmp"));
+            Assert.True(manifest.Files.All(f => f.Checksum != null));
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type, and using the checksum option.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type, and using the checksum option.
         /// </summary>
         [Fact]
         public void GenerateManifestWithChecksums()
@@ -193,40 +196,19 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             File.WriteAllText(Path.Combine(TempDirectory, "binary.dll"), " ");
             File.WriteAllText(Path.Combine(TempDirectory, "resource.bmp"), " ");
 
-            PackageManifest manifest = Generator.GenerateManifest(TempDirectory, false, true);
-
-            Assert.NotEmpty(manifest.Files);
-            Assert.Equal(2, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.WebIndex][0].Checksum);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
-        }
-
-        /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type, and using the resources option.
-        /// </summary>
-        [Fact]
-        public void GenerateManifestWithResources()
-        {
-            File.WriteAllText(Path.Combine(TempDirectory, "index.html"), " ");
-            File.WriteAllText(Path.Combine(TempDirectory, "binary.dll"), " ");
-            File.WriteAllText(Path.Combine(TempDirectory, "resource.bmp"), " ");
-
             PackageManifest manifest = Generator.GenerateManifest(TempDirectory, true);
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(3, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
-            Assert.Equal("resource.bmp", manifest.Files[PackageManifestFileType.Resource][0].Source);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "index.html"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "binary.dll"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "resource.bmp"));
+            Assert.True(manifest.Files.All(f => f.Checksum != null));
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory containing three files; one of each type with the Update event bound.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory containing three files; one of each type with the Update event bound.
         /// </summary>
         [Fact]
         public void GenerateManifestWithUpdate()
@@ -240,15 +222,15 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
             PackageManifest manifest = Generator.GenerateManifest(TempDirectory);
 
             Assert.NotEmpty(manifest.Files);
-            Assert.Equal(2, manifest.Files.Keys.Count);
-            Assert.Equal("index.html", manifest.Files[PackageManifestFileType.WebIndex][0].Source);
-            Assert.Equal("binary.dll", manifest.Files[PackageManifestFileType.Binary][0].Source);
-            Assert.NotNull(manifest.Files[PackageManifestFileType.Binary][0].Checksum);
+            Assert.Equal(3, manifest.Files.Count);
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "index.html"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "binary.dll"));
+            Assert.NotNull(manifest.Files.Select(f => f.Source == "resource.bmp"));
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a directory which does not exist.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a directory which does not exist.
         /// </summary>
         [Fact]
         public void GenerateNonExistentDirectory()
@@ -260,8 +242,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
-        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, bool, string)"/>
-        ///     method with a null directory.
+        ///     Tests the <see cref="SDK.Packaging.Operations.ManifestGenerator.GenerateManifest(string, bool, string)"/> method
+        ///     with a null directory.
         /// </summary>
         [Fact]
         public void GenerateNullDirectory()

@@ -82,8 +82,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         #region Public Methods
 
         /// <summary>
-        ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFile)"/> method.
         /// </summary>
         [Fact]
         public void AddFile()
@@ -94,15 +93,14 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
         }
 
         /// <summary>
-        ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
+        ///     Tests the <see cref="Packaging.Manifest.PackageManifestBuilder.AddFile(Packaging.Manifest.PackageManifestFile)"/>
         ///     method with a file matching the type of a previously added file.
         /// </summary>
         [Fact]
@@ -120,12 +118,12 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file2);
+            Builder.AddFile(file);
+            Builder.AddFile(file2);
 
-            Assert.Equal(2, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
-            Assert.Equal("source2", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][1].Source);
+            Assert.Equal(2, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
+            Assert.Equal("source2", Builder.Manifest.Files[1].Source);
         }
 
         /// <summary>
@@ -158,9 +156,9 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
 
             Builder.ClearFiles();
 
@@ -228,14 +226,14 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Files(IDictionary{Packaging.Manifest.PackageManifestFileType, IList{Packaging.Manifest.PackageManifestFile}})"/> method.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.Files(IList{Packaging.Manifest.PackageManifestFile})"/> method.
         /// </summary>
         [Fact]
         public void Files()
         {
             Assert.Null(Builder.Manifest.Files);
 
-            IDictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>> files = new Dictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>>();
+            IList<Packaging.Manifest.PackageManifestFile> files = new List<Packaging.Manifest.PackageManifestFile>();
             Packaging.Manifest.PackageManifestBuilder builder = Builder.Files(files);
 
             Assert.Same(builder, Builder);
@@ -286,7 +284,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/> method.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method.
         /// </summary>
         [Fact]
         public void RemoveFile()
@@ -297,20 +295,49 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
             Assert.Equal(1, Builder.Manifest.Files.Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
 
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.RemoveFile(file);
 
-            Assert.Equal(0, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal(0, Builder.Manifest.Files.Count);
         }
 
         /// <summary>
         ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
-        ///     method when no files have yet been added to the list.
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method.
+        /// </summary>
+        [Fact]
+        public void RemoveFileNotAdded()
+        {
+            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source",
+                Checksum = "checksum",
+            };
+
+            Packaging.Manifest.PackageManifestFile file2 = new Packaging.Manifest.PackageManifestFile()
+            {
+                Source = "source2",
+                Checksum = "checksum2",
+            };
+
+            Builder.AddFile(file);
+
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
+
+            Builder.RemoveFile(file2);
+
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+        }
+
+        /// <summary>
+        ///     Tests the
+        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFile)"/> method
+        ///     when no files have yet been added to the list.
         /// </summary>
         [Fact]
         public void RemoveFileNoFiles()
@@ -321,33 +348,9 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.RemoveFile(file);
 
             Assert.Null(Builder.Manifest.Files);
-        }
-
-        /// <summary>
-        ///     Tests the
-        ///     <see cref="Packaging.Manifest.PackageManifestBuilder.RemoveFile(Packaging.Manifest.PackageManifestFileType, Packaging.Manifest.PackageManifestFile)"/>
-        ///     method with a type which has not yet been added to the list.
-        /// </summary>
-        [Fact]
-        public void RemoveFileNoFilesOfType()
-        {
-            Packaging.Manifest.PackageManifestFile file = new Packaging.Manifest.PackageManifestFile()
-            {
-                Source = "source",
-                Checksum = "checksum",
-            };
-
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
-
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
-
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Binary, file);
-
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
         }
 
         /// <summary>

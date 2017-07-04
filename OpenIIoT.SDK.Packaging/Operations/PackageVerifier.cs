@@ -320,26 +320,23 @@ namespace OpenIIoT.SDK.Packaging.Operations
         {
             Verbose("Checking extracted files...");
 
-            foreach (PackageManifestFileType type in manifest.Files.Keys)
+            foreach (PackageManifestFile file in manifest.Files)
             {
-                foreach (PackageManifestFile file in manifest.Files[type])
+                Verbose($"Verifying file {file.Source}...");
+
+                // determine the absolute path for the file we need to examine
+                string fileToCheck = Path.Combine(payloadDirectory, file.Source);
+
+                if (!File.Exists(fileToCheck))
                 {
-                    Verbose($"Verifying file {file.Source}...");
+                    throw new FileNotFoundException($"The file '{file.Source}' is listed in the manifest but is not found on disk.");
+                }
 
-                    // determine the absolute path for the file we need to examine
-                    string fileToCheck = Path.Combine(payloadDirectory, file.Source);
+                string checksum = Utility.ComputeFileSHA512Hash(fileToCheck);
 
-                    if (!File.Exists(fileToCheck))
-                    {
-                        throw new FileNotFoundException($"The file '{file.Source}' is listed in the manifest but is not found on disk.");
-                    }
-
-                    string checksum = Utility.ComputeFileSHA512Hash(fileToCheck);
-
-                    if (file.Checksum != default(string) && file.Checksum != checksum)
-                    {
-                        throw new InvalidDataException($"The file '{file.Source}' is invalid; the computed checksum, {checksum}, does not match the checksum in the Manifest, {file.Checksum}.");
-                    }
+                if (file.Checksum != default(string) && file.Checksum != checksum)
+                {
+                    throw new InvalidDataException($"The file '{file.Source}' is invalid; the computed checksum, {checksum}, does not match the checksum in the Manifest, {file.Checksum}.");
                 }
             }
 
