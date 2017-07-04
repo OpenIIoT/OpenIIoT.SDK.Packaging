@@ -7,22 +7,16 @@
   "Copyright": "Copyright (c) 2017 OpenIIoT",
   "License": "AGPLv3",
   "Url": "http://github.com/openiiot",
-  "Files": {
-    "Binary": [
-      {
-        "Source": "binary.dll",
-        "Checksum": ""
-      }
-    ],
-    "WebIndex": [
-      {
-        "Source": "index.html"
-      }
-    ],
-    "Resource": [
-      {
-        "Source": "resource.dat"
-      }
-    ]
-  }
+  "Files": [
+    {
+      "Source": "binary.dll",
+      "Checksum": ""
+    },
+    {
+      "Source": "index.html"
+    },
+    {
+      "Source": "resource.dat"
+    }
+  ]
 }
