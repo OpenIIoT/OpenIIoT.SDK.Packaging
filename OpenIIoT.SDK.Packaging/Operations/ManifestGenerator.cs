@@ -69,11 +69,10 @@ namespace OpenIIoT.SDK.Packaging.Operations
         ///     files and hashing file entries if those options are specified.
         /// </summary>
         /// <param name="inputDirectory">The directory from which to generate a list of files.</param>
-        /// <param name="includeResources">A value indicating whether resource files are to be added to the manifest.</param>
         /// <param name="hashFiles">A value indicating whether files added to the manifest are to include a SHA512 hash.</param>
         /// <param name="manifestFile">The filename of the file to which the manifest is to be saved.</param>
         /// <returns>The generated manifest.</returns>
-        public PackageManifest GenerateManifest(string inputDirectory, bool includeResources = false, bool hashFiles = false, string manifestFile = "")
+        public PackageManifest GenerateManifest(string inputDirectory, bool hashFiles = false, string manifestFile = "")
         {
             ArgumentValidator.ValidateInputDirectoryArgument(inputDirectory);
 
@@ -87,7 +86,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
 
             foreach (string file in files)
             {
-                AddFile(builder, file, inputDirectory, includeResources, hashFiles);
+                AddFile(builder, file, inputDirectory, hashFiles);
             }
 
             PackageManifest manifest = builder.Manifest;
@@ -121,9 +120,8 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// <param name="builder">The manifest builder with which to add the file.</param>
         /// <param name="file">The file to add.</param>
         /// <param name="directory">The directory containing the file.</param>
-        /// <param name="includeResources">A value indicating whether resource files are to be added to the manifest.</param>
         /// <param name="hashFiles">A value indicating whether files added to the manifest are to include a SHA512 hash.</param>
-        private void AddFile(PackageManifestBuilder builder, string file, string directory, bool includeResources, bool hashFiles)
+        private void AddFile(PackageManifestBuilder builder, string file, string directory, bool hashFiles)
         {
             Verbose($"Adding file '{file}'...");
             PackageManifestFile newFile = new PackageManifestFile();
