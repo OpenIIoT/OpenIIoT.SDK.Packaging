@@ -50,9 +50,9 @@
 
 using System;
 using System.IO;
+using System.Linq;
 using OpenIIoT.SDK.Packaging.Manifest;
 using Xunit;
-using System.Linq;
 
 namespace OpenIIoT.SDK.Packaging.Tests.Operations
 {
