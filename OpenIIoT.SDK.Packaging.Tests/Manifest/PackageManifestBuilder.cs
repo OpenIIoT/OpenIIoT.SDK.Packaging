@@ -94,10 +94,10 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
         }
 
         /// <summary>
@@ -120,12 +120,12 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file2);
+            Builder.AddFile(file);
+            Builder.AddFile(file2);
 
-            Assert.Equal(2, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
-            Assert.Equal("source2", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][1].Source);
+            Assert.Equal(2, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
+            Assert.Equal("source2", Builder.Manifest.Files[1].Source);
         }
 
         /// <summary>
@@ -158,9 +158,9 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
 
             Builder.ClearFiles();
 
@@ -235,7 +235,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
         {
             Assert.Null(Builder.Manifest.Files);
 
-            IDictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>> files = new Dictionary<Packaging.Manifest.PackageManifestFileType, IList<Packaging.Manifest.PackageManifestFile>>();
+            IList<Packaging.Manifest.PackageManifestFile> files = new List<Packaging.Manifest.PackageManifestFile>();
             Packaging.Manifest.PackageManifestBuilder builder = Builder.Files(files);
 
             Assert.Same(builder, Builder);
@@ -297,14 +297,14 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
             Assert.Equal(1, Builder.Manifest.Files.Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
 
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.RemoveFile(file);
 
-            Assert.Equal(0, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal(0, Builder.Manifest.Files.Count);
         }
 
         /// <summary>
@@ -321,7 +321,7 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.RemoveFile(file);
 
             Assert.Null(Builder.Manifest.Files);
         }
@@ -340,14 +340,14 @@ namespace OpenIIoT.SDK.Packaging.Tests.Manifest
                 Checksum = "checksum",
             };
 
-            Builder.AddFile(Packaging.Manifest.PackageManifestFileType.Resource, file);
+            Builder.AddFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
-            Assert.Equal("source", Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource][0].Source);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
+            Assert.Equal("source", Builder.Manifest.Files[0].Source);
 
-            Builder.RemoveFile(Packaging.Manifest.PackageManifestFileType.Binary, file);
+            Builder.RemoveFile(file);
 
-            Assert.Equal(1, Builder.Manifest.Files[Packaging.Manifest.PackageManifestFileType.Resource].Count);
+            Assert.Equal(1, Builder.Manifest.Files.Count);
         }
 
         /// <summary>
