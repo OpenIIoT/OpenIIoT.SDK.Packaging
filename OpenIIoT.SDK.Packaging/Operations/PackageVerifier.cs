@@ -120,15 +120,15 @@ namespace OpenIIoT.SDK.Packaging.Operations
         ///     Verifies the specified Package.
         /// </summary>
         /// <param name="packageFile">The Package to verify.</param>
-        /// <param name="publicKeyFile">The filename of the file containing the ASCII armored PGP private key.</param>
+        /// <param name="publicKey">The ASCII armored PGP private key.</param>
         /// <returns>A value indicating whether the specified Package was verified successfully.</returns>
-        public bool VerifyPackage(string packageFile, string publicKeyFile = "")
+        public bool VerifyPackage(string packageFile, string publicKey = "")
         {
             ArgumentValidator.ValidatePackageFileArgumentForReading(packageFile);
 
-            if (!string.IsNullOrEmpty(publicKeyFile))
+            if (!string.IsNullOrEmpty(publicKey))
             {
-                ArgumentValidator.ValidatePublicKeyArgument(publicKeyFile);
+                ArgumentValidator.ValidatePublicKeyArgument(publicKey);
             }
 
             Info($"Verifying Package '{Path.GetFileName(packageFile)}'...");
@@ -175,17 +175,14 @@ namespace OpenIIoT.SDK.Packaging.Operations
                         VerifyTrust(manifest);
                     }
 
-                    string publicKey = string.Empty;
-
-                    if (!string.IsNullOrEmpty(publicKeyFile))
-                    {
-                        Verbose("Reading Public Key file...");
-                        publicKey = File.ReadAllText(publicKeyFile);
-                    }
-                    else
+                    if (string.IsNullOrEmpty(publicKey))
                     {
                         Verbose($"Fetching Public Key for {manifest.Signature.Subject}...");
                         publicKey = FetchPublicKeyForUser(manifest.Signature.Subject);
+                    }
+                    else
+                    {
+                        Verbose($"Using the supplied Public Key for verification...");
                     }
 
                     VerifyDigest(manifest, publicKey);
