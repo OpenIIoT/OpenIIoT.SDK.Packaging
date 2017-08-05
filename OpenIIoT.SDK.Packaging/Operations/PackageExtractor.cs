@@ -88,7 +88,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// </param>
         public void ExtractPackage(string packageFile, string outputDirectory, bool overwrite = false, bool skipVerification = false)
         {
-            ExtractPackage(packageFile, outputDirectory, string.Empty, overwrite, false);
+            ExtractPackage(packageFile, outputDirectory, string.Empty, overwrite, skipVerification);
         }
 
         /// <summary>
