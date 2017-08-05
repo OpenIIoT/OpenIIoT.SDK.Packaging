@@ -212,9 +212,13 @@ namespace OpenIIoT.SDK.Packaging.Operations
             }
             finally
             {
-                Verbose("Deleting temporary files...");
-                Directory.Delete(tempDirectory, true);
-                Verbose("Temporary files deleted successfully.");
+                if (Directory.Exists(tempDirectory))
+                {
+                    Verbose("Deleting temporary files...");
+
+                    Directory.Delete(tempDirectory, true);
+                    Verbose("Temporary files deleted successfully.");
+                }
 
                 if (deferredException != default(Exception))
                 {

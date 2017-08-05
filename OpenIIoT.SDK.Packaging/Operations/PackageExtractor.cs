@@ -65,6 +65,33 @@ namespace OpenIIoT.SDK.Packaging.Operations
         #region Public Methods
 
         /// <summary>
+        ///     Extracts the specified Package file to the specified output directory after first verifying the package.
+        /// </summary>
+        /// <param name="packageFile">The Package to be extracted.</param>
+        /// <param name="outputDirectory">The directory into which the Package payload is to be extracted.</param>
+        public void ExtractPackage(string packageFile, string outputDirectory)
+        {
+            ExtractPackage(packageFile, outputDirectory, string.Empty, false, false);
+        }
+
+        /// <summary>
+        ///     Extracts the specified Package file to the specified output directory after first verifying the package, unless the
+        ///     skipVerification parameter is specified.
+        /// </summary>
+        /// <param name="packageFile">The Package to be extracted.</param>
+        /// <param name="outputDirectory">The directory into which the Package payload is to be extracted.</param>
+        /// <param name="overwrite">
+        ///     An optional value indicating whether the output directory should be overwritten if it exists.
+        /// </param>
+        /// <param name="skipVerification">
+        ///     An optional value indicating whether the verification prior to extraction is to be skipped.
+        /// </param>
+        public void ExtractPackage(string packageFile, string outputDirectory, bool overwrite = false, bool skipVerification = false)
+        {
+            ExtractPackage(packageFile, outputDirectory, string.Empty, overwrite, false);
+        }
+
+        /// <summary>
         ///     Extracts the specified Package file to the specified output directory after first verifying the package, unless the
         ///     skipVerification parameter is specified.
         /// </summary>
@@ -88,7 +115,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
 
             if (!skipVerification)
             {
-                new PackageVerifier().VerifyPackage(packageFile);
+                new PackageVerifier().VerifyPackage(packageFile, publicKey);
             }
             else
             {
