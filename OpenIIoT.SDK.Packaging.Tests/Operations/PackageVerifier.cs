@@ -131,6 +131,26 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         }
 
         /// <summary>
+        ///     Tests the <see cref="Packaging.Operations.PackageVerifier.VerifyPackage(string, string)"/> method with an empty
+        ///     public key.
+        /// </summary>
+        [Fact]
+        public void VerifyPackageEmptyPublicKey()
+        {
+            string package = Path.Combine(DataDirectory, "Package", "trustedpackage.zip");
+            string publicKey = string.Empty;
+
+            bool verified = false;
+
+            Verifier.TrustPGPPublicKey = publicKey;
+
+            Exception ex = Record.Exception(() => verified = Verifier.VerifyPackage(package, publicKey));
+
+            Assert.NotNull(ex);
+            Assert.IsType<Exception>(ex);
+        }
+
+        /// <summary>
         ///     Tests the <see cref="Packaging.Operations.PackageVerifier.VerifyPackage(string, string)"/> method with an
         ///     explicitly defined public key.
         /// </summary>
