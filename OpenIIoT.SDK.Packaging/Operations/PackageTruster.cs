@@ -72,12 +72,12 @@ namespace OpenIIoT.SDK.Packaging.Operations
         ///     specified file and the specified passphrase.
         /// </summary>
         /// <param name="packageFile">The Package for which the Trust is to be added.</param>
-        /// <param name="privateKeyFile">The filename of the file containing the ASCII armored PGP private key.</param>
+        /// <param name="privateKey">The ASCII armored PGP private key.</param>
         /// <param name="passphrase">The passphrase for the specified PGP private key.</param>
-        public void TrustPackage(string packageFile, string privateKeyFile, string passphrase)
+        public void TrustPackage(string packageFile, string privateKey, string passphrase)
         {
             ArgumentValidator.ValidatePackageFileArgumentForWriting(packageFile, true);
-            ArgumentValidator.ValidatePrivateKeyArguments(privateKeyFile, passphrase);
+            ArgumentValidator.ValidatePrivateKeyArguments(privateKey, passphrase);
 
             Info($"Adding Trust to Package '{Path.GetFileName(packageFile)}'...");
 
@@ -99,7 +99,6 @@ namespace OpenIIoT.SDK.Packaging.Operations
                 Verbose("Digest OK.");
 
                 Verbose("Signing Digest to create the Trust...");
-                string privateKey = File.ReadAllText(privateKeyFile);
                 byte[] digestBytes = Encoding.ASCII.GetBytes(manifest.Signature.Digest);
                 byte[] trustBytes = PGPSignature.Sign(digestBytes, privateKey, passphrase);
                 string trust = Encoding.ASCII.GetString(trustBytes);
