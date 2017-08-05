@@ -382,7 +382,8 @@ namespace OpenIIoT.SDK.Packaging.Tests.Operations
         {
             string manifest = Path.Combine(DataDirectory, "Manifest", "manifest.json");
             string package = Path.Combine(TempDirectory, "signedpackage.zip");
-            string privateKey = Path.Combine(DataDirectory, "Key", "private.asc");
+            string privateKeyFile = Path.Combine(DataDirectory, "Key", "private.asc");
+            string privateKey = File.ReadAllText(privateKeyFile);
             string passphrase = File.ReadAllText(Path.Combine(DataDirectory, "Key", "passphrase.txt"));
             string keybaseUsername = File.ReadAllText(Path.Combine(DataDirectory, "Key", "keybaseUsername.txt"));
 
