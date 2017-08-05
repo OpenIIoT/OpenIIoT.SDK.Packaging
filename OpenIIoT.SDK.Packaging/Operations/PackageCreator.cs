@@ -109,7 +109,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
                     throw new ArgumentException($"The required argument 'keybase username' was not supplied.");
                 }
 
-                Info($"Package will be signed using PGP private key file '{Path.GetFileName(privateKey)}' as keybase.io user '{keybaseUsername}'.");
+                Info($"Package will be signed using the supplied PGP private key as keybase.io user '{keybaseUsername}'.");
             }
 
             Exception deferredException = default(Exception);
