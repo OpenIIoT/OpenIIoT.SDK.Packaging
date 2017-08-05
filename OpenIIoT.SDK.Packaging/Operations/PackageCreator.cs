@@ -88,13 +88,13 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// <param name="manifestFile">The PackageManifest file for the Package.</param>
         /// <param name="packageFile">The filename to which the Package file will be saved.</param>
         /// <param name="signPackage">Indicates whether the package should be signed.</param>
-        /// <param name="privateKeyFile">The file containing the ASCII-armored PGP private key.</param>
+        /// <param name="privateKey">The ASCII-armored PGP private key.</param>
         /// <param name="passphrase">The passphrase for the private key.</param>
         /// <param name="keybaseUsername">
         ///     The Keybase.io username of the account hosting the PGP public key used for digest verification.
         /// </param>
         /// <param name="overwrite">A value indicating whether the Package file will be overwritten if it exists.</param>
-        public void CreatePackage(string inputDirectory, string manifestFile, string packageFile, bool signPackage, string privateKeyFile, string passphrase, string keybaseUsername, bool overwrite = false)
+        public void CreatePackage(string inputDirectory, string manifestFile, string packageFile, bool signPackage, string privateKey, string passphrase, string keybaseUsername, bool overwrite = false)
         {
             ArgumentValidator.ValidateInputDirectoryArgument(inputDirectory);
             PackageManifest manifest = ValidateManifestFileArgumentAndRetrieveManifest(manifestFile);
@@ -102,14 +102,14 @@ namespace OpenIIoT.SDK.Packaging.Operations
 
             if (signPackage)
             {
-                ArgumentValidator.ValidatePrivateKeyArguments(privateKeyFile, passphrase);
+                ArgumentValidator.ValidatePrivateKeyArguments(privateKey, passphrase);
 
                 if (string.IsNullOrEmpty(keybaseUsername))
                 {
                     throw new ArgumentException($"The required argument 'keybase username' was not supplied.");
                 }
 
-                Info($"Package will be signed using PGP private key file '{Path.GetFileName(privateKeyFile)}' as keybase.io user '{keybaseUsername}'.");
+                Info($"Package will be signed using PGP private key file '{Path.GetFileName(privateKey)}' as keybase.io user '{keybaseUsername}'.");
             }
 
             Exception deferredException = default(Exception);
@@ -149,7 +149,7 @@ namespace OpenIIoT.SDK.Packaging.Operations
 
                 if (signPackage)
                 {
-                    manifest = SignManifest(manifest, privateKeyFile, passphrase, keybaseUsername);
+                    manifest = SignManifest(manifest, privateKey, passphrase, keybaseUsername);
                 }
 
                 Verbose($"Writing manifest to 'manifest.json' in '{tempDirectory}'...");
@@ -262,13 +262,13 @@ namespace OpenIIoT.SDK.Packaging.Operations
         ///     Digitally signs the specified manifest, adds the signature to the manifest, and returns it.
         /// </summary>
         /// <param name="manifest">The manifest to sign.</param>
-        /// <param name="privateKeyFile">The file containing the PGP private key with which to sign the file.</param>
+        /// <param name="privateKey">The PGP private key with which to sign the file.</param>
         /// <param name="passphrase">The passphrase for the PGP private key.</param>
         /// <param name="keybaseUsername">
         ///     The Keybase.io username of the account hosting the PGP public key used for digest verification.
         /// </param>
         /// <returns>The signed manifest.</returns>
-        private PackageManifest SignManifest(PackageManifest manifest, string privateKeyFile, string passphrase, string keybaseUsername)
+        private PackageManifest SignManifest(PackageManifest manifest, string privateKey, string passphrase, string keybaseUsername)
         {
             Info("Digitally signing manifest...");
 
@@ -281,10 +281,6 @@ namespace OpenIIoT.SDK.Packaging.Operations
             Verbose("Creating SHA512 hash of serialized manifest...");
             string manifestHash = Utility.ComputeSHA512Hash(manifest.ToJson());
             Verbose($"Hash computed successfully: {manifestHash}.");
-
-            Verbose("Reading keys from disk...");
-            string privateKey = File.ReadAllText(privateKeyFile);
-            Verbose("Keys read successfully.");
 
             byte[] manifestBytes = Encoding.ASCII.GetBytes(manifest.ToJson());
             Verbose("Creating digest...");
