@@ -126,11 +126,6 @@ namespace OpenIIoT.SDK.Packaging.Operations
         {
             ArgumentValidator.ValidatePackageFileArgumentForReading(packageFile);
 
-            if (!string.IsNullOrEmpty(publicKey))
-            {
-                ArgumentValidator.ValidatePublicKeyArgument(publicKey);
-            }
-
             Info($"Verifying Package '{Path.GetFileName(packageFile)}'...");
 
             Exception deferredException = default(Exception);

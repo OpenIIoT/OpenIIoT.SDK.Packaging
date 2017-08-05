@@ -70,9 +70,14 @@ namespace OpenIIoT.SDK.Packaging.Operations
         /// </summary>
         /// <param name="packageFile">The Package to be extracted.</param>
         /// <param name="outputDirectory">The directory into which the Package payload is to be extracted.</param>
-        /// <param name="overwrite">A value indicating whether the output directory should be overwritten if it exists.</param>
-        /// <param name="skipVerification">A value indicating whether the verification prior to extraction is to be skipped.</param>
-        public void ExtractPackage(string packageFile, string outputDirectory, bool overwrite = false, bool skipVerification = false)
+        /// <param name="publicKey">The optional PGP Public Key to use when verifying the Package.</param>
+        /// <param name="overwrite">
+        ///     An optional value indicating whether the output directory should be overwritten if it exists.
+        /// </param>
+        /// <param name="skipVerification">
+        ///     An optional value indicating whether the verification prior to extraction is to be skipped.
+        /// </param>
+        public void ExtractPackage(string packageFile, string outputDirectory, string publicKey = "", bool overwrite = false, bool skipVerification = false)
         {
             ArgumentValidator.ValidatePackageFileArgumentForReading(packageFile);
             ArgumentValidator.ValidateOutputDirectoryArgument(outputDirectory, overwrite);
