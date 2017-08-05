@@ -188,19 +188,6 @@ namespace OpenIIoT.SDK.Packaging
             }
         }
 
-        /// <summary>
-        ///     Validates the publicKey argument for packaging operations.
-        /// </summary>
-        /// <param name="publicKey">The value specified for the publicKeyFile argument.</param>
-        /// <exception cref="ArgumentException">Thrown when the publicKeyFile argument is null or empty.</exception>
-        internal static void ValidatePublicKeyArgument(string publicKey)
-        {
-            if (string.IsNullOrEmpty(publicKey))
-            {
-                throw new ArgumentException("The required argument 'public key' was not supplied.");
-            }
-        }
-
         #endregion Internal Methods
     }
 }
