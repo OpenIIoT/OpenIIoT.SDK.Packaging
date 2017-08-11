@@ -56,12 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArgumentValidator.cs" />
-    <Compile Include="Manifest\IPackageManifest.cs" />
     <Compile Include="Manifest\PackageManifest.cs" />
     <Compile Include="Manifest\PackageManifestBuilder.cs" />
-    <Compile Include="Manifest\IPackageManifestFile.cs" />
     <Compile Include="Manifest\PackageManifestFile.cs" />
-    <Compile Include="Manifest\IPackageManifestSignature.cs" />
     <Compile Include="Manifest\PackageManifestSignature.cs" />
     <Compile Include="PackagingConstants.cs" />
     <Compile Include="Operations\ManifestExtractor.cs" />

@@ -47,7 +47,7 @@ namespace OpenIIoT.SDK.Packaging.Manifest
     /// <summary>
     ///     A Manifest which describes the contents of a Package file.
     /// </summary>
-    public class PackageManifest : IPackageManifest
+    public class PackageManifest
     {
         #region Public Properties
 
